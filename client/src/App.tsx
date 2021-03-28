@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Homepage from "./Components/Homepage/Homepage";
 import LoginPage from "./Components/LoginPage/LoginPage";
 import NavBar from "./Components/NavBar/NavBar";
+import "./GlobalStyles.css";
 
 function App() {
   return (
