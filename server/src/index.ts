@@ -72,6 +72,10 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
+app.get("/getuser", (req, res) => {
+  res.send(req.user);
+});
+
 app.listen(4000, () => {
   console.log("Server started");
 });
