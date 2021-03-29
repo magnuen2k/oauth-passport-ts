@@ -25,7 +25,7 @@ mongoose.connect(
 
 //MIDDLEWARE
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: "https://oauth-demo.netlify.app", credentials: true }));
 
 app.set("trust proxy", 1);
 
@@ -154,7 +154,7 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/login" }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect("http://localhost:3000");
+    res.redirect("https://oauth-demo.netlify.app");
   }
 );
 
@@ -165,7 +165,7 @@ app.get(
   passport.authenticate("twitter", { failureRedirect: "/login" }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect("http://localhost:3000");
+    res.redirect("https://oauth-demo.netlify.app");
   }
 );
 
@@ -176,7 +176,7 @@ app.get(
   passport.authenticate("github", { failureRedirect: "/login" }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect("http://localhost:3000");
+    res.redirect("https://oauth-demo.netlify.app");
   }
 );
 
