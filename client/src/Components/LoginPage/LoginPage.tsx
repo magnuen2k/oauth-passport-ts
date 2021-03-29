@@ -10,11 +10,11 @@ export default function LoginPage() {
   };
 
   const githubLogin = () => {
-    // window.open("http://localhost:4000/auth/google", "_self");
+    window.open("http://localhost:4000/auth/github", "_self");
   };
 
   const twitterLogin = () => {
-    // window.open("http://localhost:4000/auth/google", "_self");
+    window.open("http://localhost:4000/auth/twitter", "_self");
   };
   return (
     <div className={styles.loginPage}>
