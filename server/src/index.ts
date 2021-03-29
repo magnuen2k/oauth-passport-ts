@@ -180,6 +180,13 @@ app.get("/getuser", (req, res) => {
   res.send(req.user);
 });
 
+app.get("/logout", (req, res) => {
+  if (req.user) {
+    req.logout();
+    res.send("success");
+  }
+});
+
 app.listen(4000, () => {
   console.log("Server started");
 });
