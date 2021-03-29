@@ -180,10 +180,10 @@ app.get("/getuser", (req, res) => {
   res.send(req.user);
 });
 
-app.get("/logout", (req, res) => {
+app.get("/auth/logout", (req, res) => {
   if (req.user) {
     req.logout();
-    res.send("success");
+    res.send("done");
   }
 });
 
