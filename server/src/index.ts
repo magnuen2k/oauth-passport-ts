@@ -4,6 +4,8 @@ import "dotenv/config";
 import cors from "cors";
 import session from "express-session";
 import passport from "passport";
+import User from "./User";
+import { IMongoDBUser, IUser } from "./types";
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const TwitterStrategy = require("passport-twitter").Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
@@ -34,12 +36,14 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser((user: any, done: any) => {
-  return done(null, user);
+passport.serializeUser((user: IMongoDBUser, done: any) => {
+  return done(null, user._id);
 });
 
-passport.deserializeUser((user: any, done: any) => {
-  return done(null, user);
+passport.deserializeUser((id: string, done: any) => {
+  User.findById(id, (err: Error, doc: IMongoDBUser) => {
+    return done(null, doc);
+  });
 });
 
 passport.use(
@@ -49,8 +53,25 @@ passport.use(
       clientSecret: process.env.GOOGLE_SECRET,
       callbackURL: "/auth/google/callback",
     },
-    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
-      cb(null, profile);
+    function (_: any, __: any, profile: any, cb: any) {
+      User.findOne(
+        { googleId: profile.id },
+        async (err: Error, doc: IMongoDBUser) => {
+          if (err) {
+            return cb(err, null);
+          }
+
+          if (!doc) {
+            const newUser = new User({
+              googleId: profile.id,
+              username: profile.name.givenName,
+            });
+            await newUser.save();
+            cb(null, newUser);
+          }
+          cb(null, doc);
+        }
+      );
     }
   )
 );
@@ -62,8 +83,25 @@ passport.use(
       consumerSecret: process.env.TWITTER_SECRET_KEY,
       callbackURL: "/auth/twitter/callback",
     },
-    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
-      cb(null, profile);
+    function (_: any, __: any, profile: any, cb: any) {
+      User.findOne(
+        { twitterId: profile.id },
+        async (err: Error, doc: IMongoDBUser) => {
+          if (err) {
+            return cb(err, null);
+          }
+
+          if (!doc) {
+            const newUser = new User({
+              twitterId: profile.id,
+              username: profile.username,
+            });
+            await newUser.save();
+            cb(null, newUser);
+          }
+          cb(null, doc);
+        }
+      );
     }
   )
 );
@@ -75,8 +113,25 @@ passport.use(
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: "/auth/github/callback",
     },
-    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
-      cb(null, profile);
+    function (_: any, __: any, profile: any, cb: any) {
+      User.findOne(
+        { githubId: profile.id },
+        async (err: Error, doc: IMongoDBUser) => {
+          if (err) {
+            return cb(err, null);
+          }
+
+          if (!doc) {
+            const newUser = new User({
+              githubId: profile.id,
+              username: profile.username,
+            });
+            await newUser.save();
+            cb(null, newUser);
+          }
+          cb(null, doc);
+        }
+      );
     }
   )
 );
