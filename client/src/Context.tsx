@@ -7,7 +7,9 @@ export default function Context(props: any) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/getuser", { withCredentials: true })
+      .get("https://oauth-demo-backend.herokuapp.com/getuser", {
+        withCredentials: true,
+      })
       .then((res) => {
         if (res.data) {
           setUserObject(res.data);

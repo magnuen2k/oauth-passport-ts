@@ -6,15 +6,24 @@ import styles from "./Loginpage.module.css";
 
 export default function LoginPage() {
   const googleLogin = () => {
-    window.open("http://localhost:4000/auth/google", "_self");
+    window.open(
+      "https://oauth-demo-backend.herokuapp.com/auth/google",
+      "_self"
+    );
   };
 
   const githubLogin = () => {
-    window.open("http://localhost:4000/auth/github", "_self");
+    window.open(
+      "https://oauth-demo-backend.herokuapp.com/auth/github",
+      "_self"
+    );
   };
 
   const twitterLogin = () => {
-    window.open("http://localhost:4000/auth/twitter", "_self");
+    window.open(
+      "https://oauth-demo-backend.herokuapp.com/auth/twitter",
+      "_self"
+    );
   };
   return (
     <div className={styles.loginPage}>
