@@ -5,6 +5,7 @@ import cors from "cors";
 import session from "express-session";
 import passport from "passport";
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const TwitterStrategy = require("passport-twitter").Strategy;
 
 const app = express();
 
@@ -54,6 +55,20 @@ passport.use(
   )
 );
 
+passport.use(
+  new TwitterStrategy(
+    {
+      consumerKey: process.env.TWITTER_API_KEY,
+      consumerSecret: process.env.TWITTER_SECRET_KEY,
+      callbackURL: "/auth/twitter/callback",
+    },
+    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
+      console.log(profile);
+      cb(null, profile);
+    }
+  )
+);
+
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile"] })
@@ -62,6 +77,17 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("http://localhost:3000");
+  }
+);
+
+app.get("/auth/twitter", passport.authenticate("twitter"));
+
+app.get(
+  "/auth/twitter/callback",
+  passport.authenticate("twitter", { failureRedirect: "/login" }),
   function (req, res) {
     // Successful authentication, redirect home.
     res.redirect("http://localhost:3000");
