@@ -151,7 +151,10 @@ app.get(
 
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", {
+    failureRedirect: "https://oauth-demo.netlify.app",
+    session: true,
+  }),
   function (req, res) {
     // Successful authentication, redirect home.
     res.redirect("https://oauth-demo.netlify.app");
